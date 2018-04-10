@@ -1,0 +1,30 @@
+PODS:
+  - Eureka (4.1.1)
+  - SQLite.swift (0.11.4):
+    - SQLite.swift/standard (= 0.11.4)
+  - SQLite.swift/standard (0.11.4)
+
+DEPENDENCIES:
+  - Eureka (from `https://github.com/xmartlabs/Eureka.git`)
+  - SQLite.swift (~> 0.11.4)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - SQLite.swift
+
+EXTERNAL SOURCES:
+  Eureka:
+    :git: https://github.com/xmartlabs/Eureka.git
+
+CHECKOUT OPTIONS:
+  Eureka:
+    :commit: cdeb467c8cdd3c37b1af9aad47d65e4fb7d2e27d
+    :git: https://github.com/xmartlabs/Eureka.git
+
+SPEC CHECKSUMS:
+  Eureka: b88fb930e42c79f8c03c373d0fcdc28c1d6c50ed
+  SQLite.swift: 3e3bee21da701b5b9f87c4a672cb54f233505692
+
+PODFILE CHECKSUM: 5174e73a6e81efafcf508586bff1c39d66e2297f
+
+COCOAPODS: 1.5.0.beta.1
