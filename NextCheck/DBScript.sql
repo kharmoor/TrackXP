@@ -1,0 +1,1 @@
+CREATE TABLE `FinancialTransaction` ( `FinancialTransactionId` INTEGER, `FinancialTransactionTypeId` INTEGER NOT NULL, `Description` TEXT, `Amount` REAL, `TransactionDate` TEXT NOT NULL, `Void` INTEGER, PRIMARY KEY(`FinancialTransactionId`) )
