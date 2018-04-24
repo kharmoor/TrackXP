@@ -29,12 +29,12 @@ class BudgetRepo: RepoProtocol{
         }
 
         for expense in budgetGroup.Expenses{
-            let expenseTransaction = FinancialTransaction(budgetId: rowid, financialTransactionType: FinancialTransactionType.Expense, description: expense.Description, amount: expense.Amount, transactionDate: Date(), void: false)
+            let expenseTransaction = FinancialTransaction(budgetId: rowid, financialTransactionType: FinancialTransactionType.Expense, description: expense.Name, amount: expense.Amount, transactionDate: Date(), void: false)
             try TransactionRepo.insert(item: expenseTransaction)
         }
     
         for income in budgetGroup.Incomes{
-            let incomeTransaction = FinancialTransaction(budgetId: rowid, financialTransactionType: FinancialTransactionType.Income, description: income.Note, amount: income.Amount, transactionDate: Date(), void: false)
+            let incomeTransaction = FinancialTransaction(budgetId: rowid, financialTransactionType: FinancialTransactionType.Income, description: income.Name, amount: income.Amount, transactionDate: Date(), void: false)
             try TransactionRepo.insert(item: incomeTransaction)
          }
         
@@ -92,7 +92,7 @@ class BudgetRepo: RepoProtocol{
             }
              budgets.append(budget)
         }
-        return budgets
+        return budgets.sorted(by: {$0.startDate < $1.startDate })
     }
     
     static func delete(item: Budget) throws {

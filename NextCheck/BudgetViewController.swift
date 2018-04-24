@@ -14,7 +14,7 @@ protocol BudgetGroupSelectPopHandler{
 }
 class BudgetViewController: UITableViewController, BudgetGroupSelectPopHandler {
     static let ui_log = OSLog(subsystem: "com.example.NextCheck", category: "UI")
-    var delegate: AppDetailModalHandler!
+    var delegate: MainDismissHandler!
     @IBOutlet weak var StartDatePicker: UIDatePicker!
     @IBOutlet weak var StartDateLabel: UILabel!
     
@@ -80,8 +80,8 @@ class BudgetViewController: UITableViewController, BudgetGroupSelectPopHandler {
         }
         do {
             let bid = try BudgetRepo.insert(item: self.viewModel.budget)
-            delegate.modalDismissed(id: bid)
-            
+            delegate.dismissedEdit(id: bid)
+            dismiss(animated: true, completion: nil)
         } catch  {
             self.showAlertOK("Error", "Error occured saving budget")
             os_log("Failed saving budget: %@", log: ExpensesViewController.ui_log, type: .error,error.localizedDescription)

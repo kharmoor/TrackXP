@@ -19,4 +19,11 @@ class Budget{
         self.startDate = startDate
         self.budgetGroup = budgetGroup
     }
+    
+    func getBalance() -> Decimal{
+        let expenseTotal = self.FinancialTransactions.filter({!$0.Void && !($0.Paid ?? false) && $0.FinancialTransactionType == .Expense}).map({$0.Amount}).reduce(0, +)
+        let incomeTotal = self.FinancialTransactions.filter({!$0.Void && $0.FinancialTransactionType == .Income}).map({$0.Amount}).reduce(0, +)
+        
+        return incomeTotal - expenseTotal
+    }
 }

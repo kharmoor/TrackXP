@@ -23,6 +23,7 @@ class TransactionRepo : RepoProtocol{
     static let financialTransactionDate = Expression<Date>("TransactionDate")
     static let financialTransactionAmount = Expression<Int64>("Amount")
     static let financialTransactionVoid = Expression<Bool>("Void")
+    static let financialTransactionPaid = Expression<Bool?>("Paid")
     
     static func insert(item: T) throws -> Int64 {
         let rowId = try db.run(table.insert(
@@ -31,7 +32,8 @@ class TransactionRepo : RepoProtocol{
                                        financialTransactionDesc <- item.Description,
                                        financialTransactionDate <- item.TransactionDate,
                                        financialTransactionAmount <- item.Amount.asCurrencyInt64,
-                                       financialTransactionVoid <- item.Void
+                                       financialTransactionVoid <- item.Void,
+                                       financialTransactionPaid <- item.Paid
                                        ))
         return rowId
     }
@@ -40,7 +42,16 @@ class TransactionRepo : RepoProtocol{
         
     }
     static func update(item: FinancialTransaction) throws {
+        let query = table.filter(financialTransactionId == item.FinancialTransactionID!)
         
+        try db.run(query.update(financialTransactionId <- item.FinancialTransactionID!,
+                                budgetId <- item.BudgetId,
+                                financialTransactionTypeId <- item.FinancialTransactionType.rawValue,
+                                financialTransactionDesc <- item.Description,
+                                financialTransactionDate <- item.TransactionDate,
+                                financialTransactionAmount <- item.Amount.asCurrencyInt64,
+                                financialTransactionVoid <- item.Void,
+                                financialTransactionPaid <- item.Paid))
     }
     static func find(id: Int64) throws -> T? {
        
@@ -61,8 +72,9 @@ class TransactionRepo : RepoProtocol{
         
         let amount =  Decimal(row[financialTransactionAmount]/100)
         let void = row[financialTransactionVoid]
+        let paid = row[financialTransactionPaid]
         
-        return FinancialTransaction(financialTransactionID: tid, budgetId: bid, financialTransactionType: transType, description: desc, amount: amount, transactionDate: date, void: void)
+        return FinancialTransaction(financialTransactionID: tid, budgetId: bid, financialTransactionType: transType, description: desc, amount: amount, transactionDate: date, void: void, paid: paid)
     
     }
     static func findByBudgetId(id: Int64) throws -> [T]?{
@@ -78,8 +90,9 @@ class TransactionRepo : RepoProtocol{
             
             let amount =  Decimal(row[financialTransactionAmount]/100)
             let void = row[financialTransactionVoid]
+            let paid = row[financialTransactionPaid]
         
-            let financialTransaction = FinancialTransaction(financialTransactionID: tid, budgetId: bid, financialTransactionType: transType, description: desc, amount: amount, transactionDate: date, void: void)
+            let financialTransaction = FinancialTransaction(financialTransactionID: tid, budgetId: bid, financialTransactionType: transType, description: desc, amount: amount, transactionDate: date, void: void, paid: paid)
             
             transactions.append(financialTransaction)
             }
@@ -99,8 +112,9 @@ class TransactionRepo : RepoProtocol{
             
             let amount =  Decimal(row[financialTransactionAmount]/100)
             let void = row[financialTransactionVoid]
+            let paid = row[financialTransactionPaid]
             
-            let financialTransaction = FinancialTransaction(financialTransactionID: tid, budgetId: bid, financialTransactionType: transType, description: desc, amount: amount, transactionDate: date, void: void)
+            let financialTransaction = FinancialTransaction(financialTransactionID: tid, budgetId: bid, financialTransactionType: transType, description: desc, amount: amount, transactionDate: date, void: void, paid: paid)
             
             transactions.append(financialTransaction)
         }

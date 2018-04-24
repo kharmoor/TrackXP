@@ -1,20 +1,17 @@
 //
-//  TransactionItemTableViewCell.swift
+//  BudgetHeaderTableViewCell.swift
 //  CheckNow
 //
-//  Created by Khari Moore on 2/25/18.
+//  Created by Khari Moore on 4/23/18.
 //  Copyright © 2018 Khari Moore. All rights reserved.
 //
 
 import UIKit
 
-class TransactionItemTableViewCell: UITableViewCell {
-
-  
-    @IBOutlet weak var descriptionLabel: UILabel!
+class BudgetHeaderTableViewCell: UITableViewCell {
+    @IBOutlet weak var DateLabel: UILabel!
     
-    @IBOutlet weak var amountLabel: UILabel!
-    
+    @IBOutlet weak var AddTransactionButton: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -25,5 +22,7 @@ class TransactionItemTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    
 
 }

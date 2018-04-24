@@ -8,14 +8,17 @@
 
 import UIKit
 import os.log
-
-class MainViewController: UITableViewController, AppDetailModalHandler {
+protocol MainDismissHandler{
+    func dismissedEdit(id: Int64)
+    func dismissedSearch(filter:[Budget])
+}
+class MainViewController: UITableViewController, MainDismissHandler {
     var delegate:AppDetailModalHandler?
     static let ui_log = OSLog(subsystem: "com.example.NextCheck", category: "UI")
 
 
     var budgets = [Budget]()
-    var sections = [String]()// = ["02/01/2018", "02/15/2018"]
+    var sections = [Int64:String]()// = ["02/01/2018", "02/15/2018"]
     //var financialTransactions: [FinancialTransaction]
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,14 +28,12 @@ class MainViewController: UITableViewController, AppDetailModalHandler {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        do {
-            budgets += try BudgetRepo.findMostRecent()
-            sections += budgets.map {DateFormatter.localizedString(from: $0.startDate, dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.none) }
-        } catch  {
-            self.showAlertOK("Error", "Error occured loading budgets")
-            os_log("Failed loading budgets: %@", log: ExpensesViewController.ui_log, type: .error,error.localizedDescription)
-        }
-      
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 44
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.singleLine
+        
+        loadBudgets()
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,7 +41,19 @@ class MainViewController: UITableViewController, AppDetailModalHandler {
         // Dispose of any resources that can be recreated.
     }
     
-    
+    func loadBudgets() -> Void{
+        do {
+            budgets += try BudgetRepo.findMostRecent()
+            var index = 0
+            budgets.forEach({
+               
+                sections[$0.BudgetId!] = DateFormatter.localizedString(from: $0.startDate, dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.none)
+                index+=1
+            })
+        } catch  {
+            self.showAlertOK("Error", "Error occured loading budgets")
+            os_log("Failed loading budgets: %@", log: ExpensesViewController.ui_log, type: .error,error.localizedDescription)
+        }    }
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -51,23 +64,40 @@ class MainViewController: UITableViewController, AppDetailModalHandler {
                 modalBudget.delegate = self
             }
         }
+        
+        if segue.identifier == "showEditTransaction"{
+            if  let editTransactionViewController = segue.destination as? EditTransactionViewController{
+                let section = tableView.indexPathForSelectedRow?.section
+                let row = tableView.indexPathForSelectedRow?.row
+                
+                if section! > 0{
+                    let budgetId = Array(sections)[section! - 1].key
+                    
+                    if let budget = budgets.first(where: {$0.BudgetId! == budgetId}){
+                        let transaction = budget.FinancialTransactions[row!]
+                        editTransactionViewController.editTransaction = transaction
+                        editTransactionViewController.delegate = self
+                }
+                }
+            }
+        }
+        
+        if segue.identifier == "showBudgetSearch"{
+            if  let editTransactionViewController = segue.destination as? BudgetSearchViewController{
+                editTransactionViewController.delegate = self
+            }
+        }
     }
     
-    func modalDismissed(id: Int64) {
-        
-//        do{
-//            if let income = try IncomeRepo.find(id: id){
-//                if let idx = incomes.index(where: { $0.IncomeId == id }) {
-//                    incomes[idx] = income
-//                }else{
-//                    incomes.append(income)
-//                }
-//                self.tableView.reloadData()
-//            }
-//        }catch{
-//            self.showAlertOK("Error", "Failed loading income view after closing details")
-//            os_log("Failed loading income during modal dismiss: %@", log: IncomeViewController.ui_log, type: .error,error.localizedDescription)
-//        }
+    func dismissedEdit(id: Int64){
+        budgets = [Budget]();
+        loadBudgets()
+        tableView.reloadData()
+    }
+    
+    func dismissedSearch(filter: [Budget]) {
+        self.budgets = filter
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -81,7 +111,7 @@ class MainViewController: UITableViewController, AppDetailModalHandler {
         // #warning Incomplete implementation, return the number of rows
         if (section > 0)
         {
-            let startDate = sections[section - 1]//.toDate("MMM d, yyyy")
+            let startDate = Array(sections)[section - 1].value//.toDate("MMM d, yyyy")
             if let budget = budgets.first(where: {DateFormatter.localizedString(from: $0.startDate, dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.none) == startDate}){
                 
             return budget.FinancialTransactions.count
@@ -100,34 +130,76 @@ class MainViewController: UITableViewController, AppDetailModalHandler {
            cell = tableView.dequeueReusableCell(withIdentifier: "\(indexPath.section),\(indexPath.row)", for: indexPath)
         
         }
-        else if indexPath.section == 1 {
-            cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath)
-            //cell?.textLabel?.text = theData[indexPath.row]
+        else if indexPath.section > 0 {
+            let transactionCell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! TransactionItemTableViewCell
+            let budgetId = Array(sections)[indexPath.section - 1].key
+        
+            if let budget = budgets.first(where: {$0.BudgetId! == budgetId}){
+                let transaction = budget.FinancialTransactions[indexPath.row]
+
+                if let description = transaction.Description{
+                    transactionCell.descriptionLabel.text = description + (transaction.Void ? " (Void)" : "")
+                }
+                transactionCell.amountLabel.text = transaction.getDisplayAmount()
+            }
+        return transactionCell
         }
-//        else if indexPath.section == 2 {
-//            cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath)
-//        }
+
         return cell ?? UITableViewCell()
         
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if (section == 0)
-        {
-            return ""
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section > 0{
+            let headerCell = tableView.dequeueReusableCell(withIdentifier: "HeaderCell") as! BudgetHeaderTableViewCell
+            headerCell.DateLabel.text = Array(sections)[section - 1].value
+            
+            headerCell.AddTransactionButton.addTarget(self, action:#selector(MainViewController.addTransactionButton), for: .touchUpInside)
+
+            return headerCell
         }
-        
-        return sections[section - 1]
+        return super.tableView(tableView, viewForHeaderInSection: section)
     }
-    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 && indexPath.row == 0{
-            self.performSegue(withIdentifier: "showBudgetSeque", sender: self)
-        }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 60
     }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0{
             self.performSegue(withIdentifier: "showBudgetSeque", sender: self)
         }
+        
+        if indexPath.section > 0{
+            self.performSegue(withIdentifier: "showEditTransaction", sender: self)
+        }
+
+    }
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+
+        if section > 0{
+        let budgetId = Array(sections)[section - 1].key
+        
+        if let budget = budgets.first(where: {$0.BudgetId! == budgetId}){
+            let headerCell = tableView.dequeueReusableCell(withIdentifier: "FooterCell") as! BalanceTableViewCell
+            headerCell.BalanceLabel.text = budget.getBalance().asCurrency
+            return headerCell
+        }
+        }
+        
+        return super.tableView(tableView, viewForFooterInSection: section)
+        
+       
+    }
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 0{
+            return 0
+        }
+        return 50
+    }
+    
+    @objc func addTransactionButton(){
+        print(tableView.in indexPathForSelectedRow?.section)
     }
  
     /*

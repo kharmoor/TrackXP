@@ -1,20 +1,16 @@
 //
-//  TransactionItemTableViewCell.swift
+//  BalanceTableViewCell.swift
 //  CheckNow
 //
-//  Created by Khari Moore on 2/25/18.
+//  Created by Khari Moore on 4/15/18.
 //  Copyright © 2018 Khari Moore. All rights reserved.
 //
 
 import UIKit
 
-class TransactionItemTableViewCell: UITableViewCell {
+class BalanceTableViewCell: UITableViewCell {
 
-  
-    @IBOutlet weak var descriptionLabel: UILabel!
-    
-    @IBOutlet weak var amountLabel: UILabel!
-    
+    @IBOutlet weak var BalanceLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

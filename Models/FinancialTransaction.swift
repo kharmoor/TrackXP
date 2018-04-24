@@ -15,9 +15,9 @@ class FinancialTransaction {
     var Amount: Decimal
     var TransactionDate: Date
     var Void: Bool
-    var ParentId: Int64?
+    var Paid: Bool?
     init(financialTransactionID : Int64? = nil, budgetId: Int64, financialTransactionType : FinancialTransactionType, description : String?
-        ,amount: Decimal, transactionDate: Date, void: Bool, parentId: Int64? = nil) {
+        ,amount: Decimal, transactionDate: Date, void: Bool, paid: Bool? = false) {
         FinancialTransactionID = financialTransactionID
         BudgetId = budgetId
         FinancialTransactionType = financialTransactionType
@@ -25,6 +25,15 @@ class FinancialTransaction {
         Amount = amount
         TransactionDate = transactionDate
         Void = void
-        ParentId = parentId
+        Paid = paid
+    }
+    
+    func getDisplayAmount() -> String{
+        if self.FinancialTransactionType == .Expense{
+            if let paid = self.Paid, paid == true{
+                return "-\(self.Amount.asCurrency)"
+            }
+        }
+        return self.Amount.asCurrency
     }
 }
