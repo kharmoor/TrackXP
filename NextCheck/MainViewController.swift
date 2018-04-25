@@ -156,7 +156,7 @@ class MainViewController: UITableViewController, MainDismissHandler {
             headerCell.DateLabel.text = Array(sections)[section - 1].value
             
             headerCell.AddTransactionButton.addTarget(self, action:#selector(MainViewController.addTransactionButton), for: .touchUpInside)
-
+            headerCell.AddTransactionButton.tag = section
             return headerCell
         }
         return super.tableView(tableView, viewForHeaderInSection: section)
@@ -170,9 +170,9 @@ class MainViewController: UITableViewController, MainDismissHandler {
             self.performSegue(withIdentifier: "showBudgetSeque", sender: self)
         }
         
-        if indexPath.section > 0{
-            self.performSegue(withIdentifier: "showEditTransaction", sender: self)
-        }
+//        if indexPath.section > 0{
+//            self.performSegue(withIdentifier: "showEditTransaction", sender: self)
+//        }
 
     }
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -198,8 +198,16 @@ class MainViewController: UITableViewController, MainDismissHandler {
         return 50
     }
     
-    @objc func addTransactionButton(){
-        print(tableView.in indexPathForSelectedRow?.section)
+    @objc func addTransactionButton(sender: UIButton){
+        let budgetId = Array(sections)[sender.tag - 1].key
+        
+        if let budget = budgets.first(where: {$0.BudgetId! == budgetId}){
+            let editTransactionViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditTransactionViewController") as! EditTransactionViewController
+            editTransactionViewController.editBudget = budget
+            editTransactionViewController.delegate = self
+            self.show(editTransactionViewController, sender: self)
+            
+        }
     }
  
     /*

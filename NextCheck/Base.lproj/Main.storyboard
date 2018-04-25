@@ -414,6 +414,7 @@
                                 <connections>
                                     <outlet property="amountLabel" destination="MJM-Zd-wvt" id="sC6-n5-mYS"/>
                                     <outlet property="descriptionLabel" destination="Xp0-hd-7RB" id="dys-Ck-Xy0"/>
+                                    <segue destination="jDk-Ed-ZaR" kind="show" identifier="showEditTransaction" id="UkM-rN-cIg"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FooterCell" rowHeight="60" id="XN1-Ok-WB5" customClass="BalanceTableViewCell" customModule="CheckNow" customModuleProvider="target">
@@ -503,7 +504,6 @@
                     <navigationItem key="navigationItem" id="0dP-Ep-pGQ"/>
                     <connections>
                         <segue destination="gUX-Vr-DeW" kind="presentation" identifier="showBudgetSeque" id="bKg-BX-pP0"/>
-                        <segue destination="jDk-Ed-ZaR" kind="show" identifier="showEditTransaction" id="cDE-FG-zW2"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TVW-Ju-9bT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1007,7 +1007,7 @@
         <scene sceneID="n9o-qX-EFA">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="XE5-we-dq7" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Budget Group" id="a74-zH-t0X"/>
+                    <tabBarItem key="tabBarItem" title="Budget Group" image="BudgetGroup" id="a74-zH-t0X"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Nut-du-VSh">
@@ -1102,6 +1102,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="BudgetGroup" width="23" height="23"/>
         <image name="Expenses" width="23" height="23"/>
         <image name="Income" width="23" height="23"/>
         <image name="Transactions" width="23" height="23"/>
