@@ -14,7 +14,7 @@ class ExpenseDetailViewController: FormViewController {
     var delegate:ExpenseDetailModalHandler?
     var editExpense: Expense?
     var viewModel: ViewModel!
-    var categories: [Int64:String] = [1 : "Food", 2 : "Entertainment", 3: "Financial", 4: "Utility"]
+    //var categories: [Int64:String] = [1 : "Food", 2 : "Entertainment", 3: "Financial", 4: "Utility"]
     
     static let ui_log = OSLog(subsystem: "com.example.NextCheck", category: "UI")
     
@@ -71,21 +71,6 @@ class ExpenseDetailViewController: FormViewController {
                             }
                         })
                     }
-            <<< PickerInlineRow<Int64>() {
-                $0.title = "Category"
-                $0.displayValueFor = { (rowValue: Int64?) in
-                    return rowValue.map { self.categories[$0]!  }
-                }
-                $0.options = categories.map {$0.key}
-                $0.onChange({[unowned self] row in
-                    if let categoryId = row.value{
-                        self.viewModel.CategoryId = Int64(categoryId)
-                    }
-                })
-                if let catId = viewModel.CategoryId{
-                    $0.value = catId
-                }
-            }
 
             <<< TextAreaRow() {
                 $0.title = "Description"
@@ -116,10 +101,10 @@ class ExpenseDetailViewController: FormViewController {
             let amount = viewModel.Amount //Decimal(string: viewModel.Amount) ?? 0
             let name = viewModel.Name
             let description = viewModel.Description
-            let categoryId = viewModel.CategoryId
+            //let categoryId = viewModel.CategoryId
             let expenseId = editExpense == nil ? nil : editExpense?.ExpenseId
                 
-            let expense = Expense(expenseId: expenseId, name: name, description: description, categoryId: categoryId, amount: amount)
+            let expense = Expense(expenseId: expenseId, name: name, description: description, categoryId: 0, amount: amount)
                 let eid: Int64
                 if editExpense == nil{
                     eid = try ExpenseRepo.insert(item: expense)
@@ -159,60 +144,60 @@ class ExpenseDetailViewController: FormViewController {
 //    }
     
     //MARK: Private Methods
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let MAX_DIGITS: Int = 11
-        // $999,999,999.99
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .currency
-        numberFormatter.maximumFractionDigits = 2
-        numberFormatter.minimumFractionDigits = 2
-        
-        var stringMaybeChanged: String = string
-        if (stringMaybeChanged.count > 1 ){//remove the dollar sign and commas to make string a number/decimal
-            var stringPasted: String = stringMaybeChanged
-            
-            //subRange: we get subrange to use in the replacingOccurrences function
-            if let subRange = Range<String.Index>(NSRange(location: 0, length: stringPasted.count), in: stringPasted) {
-                stringPasted = stringPasted.replacingOccurrences(of: numberFormatter.currencySymbol, with: "", options: .literal, range: subRange)
-            }
-            
-            if let subRange = Range<String.Index>(NSRange(location: 0, length: stringPasted.count), in: stringPasted) { stringPasted = stringPasted.replacingOccurrences(of: numberFormatter.groupingSeparator, with: "", options: .literal, range: subRange)
-                
-            }
-            let numberPasted = NSDecimalNumber(string: stringPasted)
-            stringMaybeChanged = numberFormatter.string(from: numberPasted) ?? ""
-        }
-        
-        let selectedRange: UITextRange? = textField.selectedTextRange
-        let start: UITextPosition? = textField.beginningOfDocument
-        let cursorOffset: Int = textField.offset(from: start ?? UITextPosition(), to: selectedRange?.start ?? UITextPosition())
-        var textFieldTextStr: String = textField.text ?? ""
-        let textFieldTextStrLength: Int = textFieldTextStr.count
-        
-        if let subRange = Range<String.Index>(range, in: textFieldTextStr) { textFieldTextStr.replaceSubrange(subRange, with: stringMaybeChanged) }
-        if let subRange = Range<String.Index>(NSRange(location: 0, length: textFieldTextStr.count), in: textFieldTextStr) { textFieldTextStr = textFieldTextStr.replacingOccurrences(of: numberFormatter.currencySymbol, with: "", options: .literal, range: subRange) }
-        if let subRange = Range<String.Index>(NSRange(location: 0, length: textFieldTextStr.count), in: textFieldTextStr) { textFieldTextStr = textFieldTextStr.replacingOccurrences(of: numberFormatter.groupingSeparator, with: "", options: .literal, range: subRange) }
-        if let subRange = Range<String.Index>(NSRange(location: 0, length: textFieldTextStr.count), in: textFieldTextStr) { textFieldTextStr = textFieldTextStr.replacingOccurrences(of: numberFormatter.decimalSeparator, with: "", options: .literal, range: subRange) }
-        
-        if textFieldTextStr.count <= MAX_DIGITS {
-            let textFieldTextNum = NSDecimalNumber(string: textFieldTextStr)
-            //var divideByNum: NSDecimalNumber? = 10.raising(toPower: numberFormatter.maximumFractionDigits)
-            let textFieldTextNewNum = textFieldTextNum.dividing(by: 100)
-            let textFieldTextNewStr: String? = numberFormatter.string(from: textFieldTextNewNum)
-            
-            textField.text = textFieldTextNewStr
-            if cursorOffset != textFieldTextStrLength {
-                let lengthDelta: Int = textFieldTextNewStr!.count - textFieldTextStrLength
-                let newCursorOffset: Int = max(0, min(textFieldTextNewStr!.count, cursorOffset + lengthDelta))
-                let newPosition: UITextPosition? = textField.position(from: textField.beginningOfDocument, offset: newCursorOffset)
-                let newRange: UITextRange? = textField.textRange(from: newPosition ?? UITextPosition(), to: newPosition ?? UITextPosition())
-                textField.selectedTextRange = newRange
-            }
-        }
-        
-        return false;
-    }
-    
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        let MAX_DIGITS: Int = 11
+//        // $999,999,999.99
+//        let numberFormatter = NumberFormatter()
+//        numberFormatter.numberStyle = .currency
+//        numberFormatter.maximumFractionDigits = 2
+//        numberFormatter.minimumFractionDigits = 2
+//
+//        var stringMaybeChanged: String = string
+//        if (stringMaybeChanged.count > 1 ){//remove the dollar sign and commas to make string a number/decimal
+//            var stringPasted: String = stringMaybeChanged
+//
+//            //subRange: we get subrange to use in the replacingOccurrences function
+//            if let subRange = Range<String.Index>(NSRange(location: 0, length: stringPasted.count), in: stringPasted) {
+//                stringPasted = stringPasted.replacingOccurrences(of: numberFormatter.currencySymbol, with: "", options: .literal, range: subRange)
+//            }
+//
+//            if let subRange = Range<String.Index>(NSRange(location: 0, length: stringPasted.count), in: stringPasted) { stringPasted = stringPasted.replacingOccurrences(of: numberFormatter.groupingSeparator, with: "", options: .literal, range: subRange)
+//
+//            }
+//            let numberPasted = NSDecimalNumber(string: stringPasted)
+//            stringMaybeChanged = numberFormatter.string(from: numberPasted) ?? ""
+//        }
+//
+//        let selectedRange: UITextRange? = textField.selectedTextRange
+//        let start: UITextPosition? = textField.beginningOfDocument
+//        let cursorOffset: Int = textField.offset(from: start ?? UITextPosition(), to: selectedRange?.start ?? UITextPosition())
+//        var textFieldTextStr: String = textField.text ?? ""
+//        let textFieldTextStrLength: Int = textFieldTextStr.count
+//
+//        if let subRange = Range<String.Index>(range, in: textFieldTextStr) { textFieldTextStr.replaceSubrange(subRange, with: stringMaybeChanged) }
+//        if let subRange = Range<String.Index>(NSRange(location: 0, length: textFieldTextStr.count), in: textFieldTextStr) { textFieldTextStr = textFieldTextStr.replacingOccurrences(of: numberFormatter.currencySymbol, with: "", options: .literal, range: subRange) }
+//        if let subRange = Range<String.Index>(NSRange(location: 0, length: textFieldTextStr.count), in: textFieldTextStr) { textFieldTextStr = textFieldTextStr.replacingOccurrences(of: numberFormatter.groupingSeparator, with: "", options: .literal, range: subRange) }
+//        if let subRange = Range<String.Index>(NSRange(location: 0, length: textFieldTextStr.count), in: textFieldTextStr) { textFieldTextStr = textFieldTextStr.replacingOccurrences(of: numberFormatter.decimalSeparator, with: "", options: .literal, range: subRange) }
+//
+//        if textFieldTextStr.count <= MAX_DIGITS {
+//            let textFieldTextNum = NSDecimalNumber(string: textFieldTextStr)
+//            //var divideByNum: NSDecimalNumber? = 10.raising(toPower: numberFormatter.maximumFractionDigits)
+//            let textFieldTextNewNum = textFieldTextNum.dividing(by: 100)
+//            let textFieldTextNewStr: String? = numberFormatter.string(from: textFieldTextNewNum)
+//
+//            textField.text = textFieldTextNewStr
+//            if cursorOffset != textFieldTextStrLength {
+//                let lengthDelta: Int = textFieldTextNewStr!.count - textFieldTextStrLength
+//                let newCursorOffset: Int = max(0, min(textFieldTextNewStr!.count, cursorOffset + lengthDelta))
+//                let newPosition: UITextPosition? = textField.position(from: textField.beginningOfDocument, offset: newCursorOffset)
+//                let newRange: UITextRange? = textField.textRange(from: newPosition ?? UITextPosition(), to: newPosition ?? UITextPosition())
+//                textField.selectedTextRange = newRange
+//            }
+//        }
+//
+//        return false;
+//    }
+//
    
 
 }

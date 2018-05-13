@@ -133,6 +133,7 @@ class TransactionRepo : RepoProtocol{
                 table.column(TransactionRepo.financialTransactionDate)
                 table.column(TransactionRepo.financialTransactionAmount)
                 table.column(TransactionRepo.financialTransactionVoid)
+                table.column(TransactionRepo.financialTransactionPaid)
                 
             })
         }catch{

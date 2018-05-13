@@ -44,6 +44,9 @@ class BudgetViewController: UITableViewController, BudgetGroupSelectPopHandler {
         StartDateLabel.text = DateFormatter.localizedString(from: self.viewModel.budget.startDate, dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.none)
           self.tableView.register(BudgetGroupItemTableViewCell.self, forCellReuseIdentifier: "BudgetGroupItemTableViewCell")
         
+        let date = Date()
+        let cal = Calendar(identifier: .gregorian)
+        StartDatePicker.date = cal.startOfDay(for: date)
     }
 
     override func didReceiveMemoryWarning() {

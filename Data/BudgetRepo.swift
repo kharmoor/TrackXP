@@ -20,6 +20,7 @@ class BudgetRepo: RepoProtocol{
     static let budgetId = Expression<Int64>("BudgetId")
     static let budgetGroupId = Expression<Int64>("BudgetGroupId")
     static let startDate = Expression<Date>("StartDate")
+    static let activeEnt = Expression<Bool>("ActiveEnt")
     
     static func insert(item: T) throws -> Int64 {
         let rowid = try db.run(table.insert(startDate <- item.startDate, budgetGroupId <- (item.budgetGroup?.Id)!!))
@@ -58,13 +59,14 @@ class BudgetRepo: RepoProtocol{
     }
     static func findAll() throws -> [T]? {
         var budgets = [T]()
+        let query = table.filter(activeEnt == true)
         
-        for row in try db.prepare(table){
+        for row in try db.prepare(query){
             
         let bid = row[budgetId]
         let startDate = row[self.startDate]
         
-        var budget = Budget(budgetId: bid, startDate: startDate, budgetGroup: nil)
+        let budget = Budget(budgetId: bid, startDate: startDate, budgetGroup: nil)
         
         budgets.append(budget)
             
@@ -77,7 +79,7 @@ class BudgetRepo: RepoProtocol{
         let today = Date()
         let budgetUpperDate = Calendar.current.date(byAdding: .day, value: 30, to: today)
 
-        let query = table.filter(startDate <= budgetUpperDate!).order(startDate.desc).limit(2)
+        let query = table.filter(startDate <= budgetUpperDate! && activeEnt == true).order(startDate.desc).limit(2)
 
         for row in try db.prepare(query){
             let bid = row[budgetId]
@@ -96,6 +98,9 @@ class BudgetRepo: RepoProtocol{
     }
     
     static func delete(item: Budget) throws {
+        let query = table.filter(budgetId == item.BudgetId!)
+
+        try db.run(query.update([activeEnt <- false]))
         
     }
     
@@ -105,11 +110,13 @@ class BudgetRepo: RepoProtocol{
     
     static func createTable() throws {
         do{
+            //try BudgetRepo.db.run(BudgetRepo.table.addColumn(Expression<Bool>("ActiveEnt"), defaultValue: true))
             try BudgetRepo.db.run(BudgetRepo.table.create(ifNotExists: true){
                 table in
                 table.column(BudgetRepo.budgetId, primaryKey: true)
                 table.column(BudgetRepo.startDate)
                 table.column(BudgetRepo.budgetGroupId)
+                table.column(BudgetRepo.activeEnt, defaultValue: true)
             })
         }catch{
             print("Unable to create budget table")

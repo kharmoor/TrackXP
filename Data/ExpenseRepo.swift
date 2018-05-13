@@ -83,6 +83,7 @@ class ExpenseRepo : RepoProtocol{
                 table.column(ExpenseRepo.Name)
                 table.column(ExpenseRepo.Description)
                 table.column(ExpenseRepo.CategoryId)
+                table.column(ExpenseRepo.Amount)
             })
         }catch let e as NSError{
             os_log("Unable to create expense table: %@", log: ExpenseRepo.ui_log, type: .error,e.localizedDescription)

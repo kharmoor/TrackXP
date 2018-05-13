@@ -65,6 +65,9 @@ extension Date
         formatter.timeStyle = .short
         return formatter.string(from: self)
     }
+    func toShortDateString() -> String{
+        return DateFormatter.localizedString(from: self, dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.none)
+    }
     var firstDayOfWeek: Date {
         var beginningOfWeek = Date()
         var interval = TimeInterval()

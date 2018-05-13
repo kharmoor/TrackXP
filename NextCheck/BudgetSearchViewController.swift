@@ -22,15 +22,26 @@ static let ui_log = OSLog(subsystem: "com.example.NextCheck", category: "UI")
         do {
             
             
-            self.Budgets += try BudgetRepo.findAll()!.sorted(by: {(b1, b2) in b1.startDate.timeIntervalSince1970 > b2.startDate.timeIntervalSince1970})
-            form +++ SelectableSection<ListCheckRow<Int64>>("Select Budgets", selectionType: .multipleSelection)
-            for budget in Budgets{
-                form.last! <<< ListCheckRow<Int64>{ row in
-                    row.title = DateFormatter.localizedString(from: budget.startDate, dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.none)
-                    row.selectableValue = budget.BudgetId!
-                    
-                }
-            }
+//            self.Budgets += try BudgetRepo.findAll()!.sorted(by: {(b1, b2) in b1.startDate.timeIntervalSince1970 > b2.startDate.timeIntervalSince1970})
+//            form +++
+//                Section() { section in
+//                    var header = HeaderFooterView<BudgetSectionView>(.nibFile(name: "BudgetSectionView", bundle: nil))
+//
+//                    // Will be called every time the header appears on screen
+//                    header.onSetupView = { view, _ in
+//                        // Commonly used to setup texts inside the view
+//                        // Don't change the view hierarchy or size here!
+//                    }
+//                    section.header = header
+//            }
+//            SelectableSection<ListCheckRow<Int64>>("Select Budgets", selectionType: .multipleSelection)
+//            for budget in Budgets{
+//                form.last! <<< ListCheckRow<Int64>{ row in
+//                    row.title = DateFormatter.localizedString(from: budget.startDate, dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.none)
+//                    row.selectableValue = budget.BudgetId!
+//
+//                }
+//            }
             
         } catch  {
             os_log("Error occured loading budget search: %@", log: ExpenseDetailViewController.ui_log, type: .error,error.localizedDescription)

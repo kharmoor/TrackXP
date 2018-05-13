@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol UserHeaderTableViewCellDelegate{
+//    func didSelectUserHeaderTableViewCell(selected: Bool, userHeader: BudgetHeaderTableViewCell)
+    func didEditUserHeaderTableViewCell(_ editing:Bool, userHeader: BudgetHeaderTableViewCell)
+}
+
 class BudgetHeaderTableViewCell: UITableViewCell {
+    var delegate: UserHeaderTableViewCellDelegate?
     @IBOutlet weak var DateLabel: UILabel!
     
     @IBOutlet weak var AddTransactionButton: UIButton!
@@ -23,6 +29,12 @@ class BudgetHeaderTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+    }
     
+//    @IBAction func selectedHeader(sender: AnyObject){
+//        delegate?.didSelectUserHeaderTableViewCell(selected: true, userHeader: self)
+//    }
 
 }

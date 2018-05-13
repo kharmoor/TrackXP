@@ -152,33 +152,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KEO-pw-qBc">
-                                <rect key="frame" x="97" y="92" width="59" height="30"/>
-                                <state key="normal" title="Expense"/>
-                                <state key="highlighted" title="Expense">
-                                    <color key="titleShadowColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="ExpenseButtonClick:" destination="tpP-1y-MXl" eventType="touchUpInside" id="zkU-Aw-TUN"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8H-sp-eg3">
-                                <rect key="frame" x="243" y="92" width="59" height="30"/>
+                                <rect key="frame" x="216" y="89" width="51" height="30"/>
                                 <state key="normal" title="Income"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
+                                        <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
@@ -186,7 +165,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5AH-Yh-AsF">
-                                <rect key="frame" x="10" y="142" width="388" height="584"/>
+                                <rect key="frame" x="10" y="139" width="388" height="587"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" indentationWidth="10" reuseIdentifier="ExpenseItemTableViewCell" rowHeight="90" id="hpM-PV-LmJ" customClass="ExpenseItemTableViewCell" customModule="CheckNow" customModuleProvider="target">
@@ -230,29 +209,41 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KEO-pw-qBc">
+                                <rect key="frame" x="139" y="89" width="59" height="30"/>
+                                <state key="normal" title="Expense"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="ExpenseButtonClick:" destination="tpP-1y-MXl" eventType="touchUpInside" id="zkU-Aw-TUN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="t8H-sp-eg3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KEO-pw-qBc" secondAttribute="trailing" symbolic="YES" id="0JT-SR-LNR"/>
+                            <constraint firstItem="t8H-sp-eg3" firstAttribute="top" secondItem="pZa-Ic-9qy" secondAttribute="bottom" constant="25" id="9Hi-HW-gk5"/>
                             <constraint firstItem="Iif-hM-0em" firstAttribute="top" secondItem="5AH-Yh-AsF" secondAttribute="bottom" constant="10" id="FhG-rs-OeG"/>
                             <constraint firstAttribute="trailing" secondItem="5AH-Yh-AsF" secondAttribute="trailing" constant="16" id="H1y-GN-PxL"/>
-                            <constraint firstItem="KEO-pw-qBc" firstAttribute="leading" secondItem="MKQ-A2-JCb" secondAttribute="leading" constant="97" id="WkS-7W-P1R"/>
-                            <constraint firstItem="t8H-sp-eg3" firstAttribute="top" secondItem="pZa-Ic-9qy" secondAttribute="bottom" constant="28" id="Xrj-fS-8x3"/>
-                            <constraint firstItem="t8H-sp-eg3" firstAttribute="baseline" secondItem="KEO-pw-qBc" secondAttribute="baseline" id="gAj-0a-kj5"/>
-                            <constraint firstItem="5AH-Yh-AsF" firstAttribute="top" secondItem="KEO-pw-qBc" secondAttribute="bottom" constant="20" id="kKB-FV-xoF"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="t8H-sp-eg3" secondAttribute="trailing" constant="92" id="kke-M1-8QJ"/>
-                            <constraint firstItem="KEO-pw-qBc" firstAttribute="width" secondItem="t8H-sp-eg3" secondAttribute="width" id="lgy-jg-4f0"/>
+                            <constraint firstItem="KEO-pw-qBc" firstAttribute="baseline" secondItem="t8H-sp-eg3" secondAttribute="baseline" id="kh0-Nz-18k"/>
+                            <constraint firstItem="t8H-sp-eg3" firstAttribute="leading" secondItem="KEO-pw-qBc" secondAttribute="trailing" constant="18" id="njL-Ad-MJ5"/>
+                            <constraint firstItem="KEO-pw-qBc" firstAttribute="leading" secondItem="MKQ-A2-JCb" secondAttribute="leading" constant="139" id="oBP-Jj-lJg"/>
                             <constraint firstItem="5AH-Yh-AsF" firstAttribute="leading" secondItem="MKQ-A2-JCb" secondAttribute="leading" constant="10" id="r7J-kT-6qJ"/>
+                            <constraint firstItem="5AH-Yh-AsF" firstAttribute="top" secondItem="t8H-sp-eg3" secondAttribute="bottom" constant="20" id="sJf-jw-AoX"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="7zz-O4-v6u"/>
                     <connections>
+                        <outlet property="expenseButton" destination="KEO-pw-qBc" id="ym0-l5-nkN"/>
+                        <outlet property="incomeButton" destination="t8H-sp-eg3" id="XuE-Oc-lws"/>
                         <outlet property="tableView" destination="5AH-Yh-AsF" id="xOv-3m-qPe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RzQ-yx-XdH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1381.5999999999999" y="396.25187406296857"/>
+            <point key="canvasLocation" x="1381.1594202898552" y="396.19565217391306"/>
         </scene>
         <!--Category Detail View Controller-->
         <scene sceneID="nuo-WH-BRw">
@@ -296,7 +287,75 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ek1-3w-fjQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-920" y="-2538"/>
+            <point key="canvasLocation" x="467" y="-2538"/>
+        </scene>
+        <!--Title-->
+        <scene sceneID="Adl-hp-n17">
+            <objects>
+                <tableViewController id="Awv-h1-JvR" customClass="BudgetsViewController" customModule="CheckNow" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="r3Z-Wt-WRC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="BudgetCell" id="oa4-LH-NfY" customClass="BudgetHeaderTableViewCell" customModule="CheckNow" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oa4-LH-NfY" id="tXi-ym-rCr" customClass="BudgetHeaderTableViewCell" customModule="CheckNow" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ezu-Lh-SPF">
+                                            <rect key="frame" x="20" y="11" width="280" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="DateLabel" destination="ezu-Lh-SPF" id="gMN-YQ-9XC"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HeaderCell" rowHeight="66" id="1gs-Ca-Ayr" customClass="FilterBudgetHeaderTableViewCell" customModule="CheckNow" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="414" height="66"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1gs-Ca-Ayr" id="xbK-eC-cyW">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="65.666666666666671"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C3t-Xp-3VE">
+                                            <rect key="frame" x="20" y="17" width="374" height="30"/>
+                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <state key="normal" title="Show Budgets">
+                                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </state>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="C3t-Xp-3VE" firstAttribute="leading" secondItem="xbK-eC-cyW" secondAttribute="leading" constant="20" id="QQh-Ph-3N9"/>
+                                        <constraint firstItem="C3t-Xp-3VE" firstAttribute="centerY" secondItem="xbK-eC-cyW" secondAttribute="centerY" id="lP0-1T-Ewi"/>
+                                        <constraint firstAttribute="trailing" secondItem="C3t-Xp-3VE" secondAttribute="trailing" constant="20" id="u3Q-Ur-3bh"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="filterBudgetButton" destination="C3t-Xp-3VE" id="3NK-LW-Tkm"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Awv-h1-JvR" id="08w-AZ-ppG"/>
+                            <outlet property="delegate" destination="Awv-h1-JvR" id="xbS-No-61r"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="t6Z-je-Hx0">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="xYi-cc-Oen"/>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="P1I-4M-3Gm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-920.28985507246387" y="-2553.2608695652175"/>
         </scene>
         <!--Edit Transaction-->
         <scene sceneID="ore-qQ-6O4">
@@ -323,7 +382,7 @@
             </objects>
             <point key="canvasLocation" x="-210" y="-2537"/>
         </scene>
-        <!--Main View Controller-->
+        <!--TrackXP-->
         <scene sceneID="RPW-Uy-qeP">
             <objects>
                 <tableViewController id="GRv-xy-W1Z" customClass="MainViewController" customModule="CheckNow" customModuleProvider="target" sceneMemberID="viewController">
@@ -356,8 +415,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="376" height="40.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wyG-G1-6oy">
-                                            <rect key="frame" x="16.000000000000004" y="10.999999999999998" width="58.333333333333343" height="20.333333333333329"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View All" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wyG-G1-6oy">
+                                            <rect key="frame" x="16.000000000000004" y="10.999999999999998" width="60.333333333333343" height="20.333333333333329"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="340" id="0vO-JC-mpq"/>
                                             </constraints>
@@ -367,12 +426,13 @@
                                         </label>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wyG-G1-6oy" secondAttribute="trailing" constant="20" symbolic="YES" id="6NJ-iC-qJN"/>
                                         <constraint firstItem="wyG-G1-6oy" firstAttribute="leading" secondItem="dQ5-ns-tYR" secondAttribute="leading" constant="16" id="Hva-Ek-ADw"/>
                                         <constraint firstItem="wyG-G1-6oy" firstAttribute="top" secondItem="dQ5-ns-tYR" secondAttribute="top" constant="11" id="hrU-kF-eII"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="bux-Jb-VcG" kind="show" identifier="showBudgetSearch" id="hRp-K1-E4T"/>
+                                    <segue destination="Awv-h1-JvR" kind="show" identifier="showBudgetSearch" id="UsP-GI-gaH"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TransactionCell" rowHeight="70" id="klP-jx-Cc7" customClass="TransactionItemTableViewCell" customModule="CheckNow" customModuleProvider="target">
@@ -394,10 +454,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$1000,000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MJM-Zd-wvt">
-                                            <rect key="frame" x="273" y="25" width="95" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="95" id="VyO-BY-NKE"/>
-                                            </constraints>
+                                            <rect key="frame" x="284.33333333333331" y="25" width="83.666666666666686" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -405,8 +462,10 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Xp0-hd-7RB" firstAttribute="top" secondItem="dvV-rd-1h1" secondAttribute="top" constant="5" id="CcW-4b-ry2"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Xp0-hd-7RB" secondAttribute="trailing" constant="20" symbolic="YES" id="LjK-Y3-rUh"/>
                                         <constraint firstItem="Xp0-hd-7RB" firstAttribute="leading" secondItem="dvV-rd-1h1" secondAttribute="leading" constant="10" id="YFB-fB-v9Z"/>
                                         <constraint firstAttribute="bottom" secondItem="Xp0-hd-7RB" secondAttribute="bottom" constant="5" id="b9T-xA-lTq"/>
+                                        <constraint firstItem="MJM-Zd-wvt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dvV-rd-1h1" secondAttribute="leading" constant="20" symbolic="YES" id="oCG-1g-r4o"/>
                                         <constraint firstAttribute="trailing" secondItem="MJM-Zd-wvt" secondAttribute="trailing" constant="8" id="qQb-Fx-umM"/>
                                         <constraint firstItem="MJM-Zd-wvt" firstAttribute="centerY" secondItem="dvV-rd-1h1" secondAttribute="centerY" id="tj2-ZR-chc"/>
                                     </constraints>
@@ -414,7 +473,7 @@
                                 <connections>
                                     <outlet property="amountLabel" destination="MJM-Zd-wvt" id="sC6-n5-mYS"/>
                                     <outlet property="descriptionLabel" destination="Xp0-hd-7RB" id="dys-Ck-Xy0"/>
-                                    <segue destination="jDk-Ed-ZaR" kind="show" identifier="showEditTransaction" id="UkM-rN-cIg"/>
+                                    <segue destination="jDk-Ed-ZaR" kind="show" identifier="showEditTransaction" id="eCG-qs-dzQ"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FooterCell" rowHeight="60" id="XN1-Ok-WB5" customClass="BalanceTableViewCell" customModule="CheckNow" customModuleProvider="target">
@@ -425,10 +484,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Balance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mss-m9-RZS">
-                                            <rect key="frame" x="271" y="16" width="95" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="95" id="1Dk-gh-pmG"/>
-                                            </constraints>
+                                            <rect key="frame" x="305.33333333333331" y="16" width="60.666666666666686" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -437,6 +493,7 @@
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="Mss-m9-RZS" secondAttribute="trailing" constant="48" id="8YQ-oF-p83"/>
                                         <constraint firstItem="Mss-m9-RZS" firstAttribute="centerY" secondItem="qJb-hN-ab7" secondAttribute="centerY" constant="-3.3333333333333321" id="VEZ-sS-tzC"/>
+                                        <constraint firstItem="Mss-m9-RZS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qJb-hN-ab7" secondAttribute="leading" constant="20" symbolic="YES" id="cAV-5Y-a4R"/>
                                     </constraints>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
@@ -449,35 +506,32 @@
                                     <outlet property="BalanceLabel" destination="Mss-m9-RZS" id="vWZ-Py-zuW"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HeaderCell" rowHeight="60" id="dKV-1G-rFk" customClass="BudgetHeaderTableViewCell" customModule="CheckNow" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="270.33333333333337" width="414" height="60"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HeaderCell" rowHeight="85" id="dKV-1G-rFk" customClass="BudgetHeaderTableViewCell" customModule="CheckNow" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="270.33333333333337" width="414" height="85"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dKV-1G-rFk" id="3OK-hh-wla">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="59.666666666666664"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="84.666666666666671"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oQd-JM-Cof">
-                                            <rect key="frame" x="20" y="20" width="125" height="21"/>
+                                            <rect key="frame" x="20" y="32.333333333333336" width="300" height="20.333333333333336"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="125" id="TXf-Lc-hIT"/>
+                                                <constraint firstAttribute="width" constant="300" id="Ifd-xV-KSY"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EHl-tK-XfN">
-                                            <rect key="frame" x="372" y="19" width="22" height="22"/>
+                                            <rect key="frame" x="372" y="32" width="22" height="22"/>
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="oQd-JM-Cof" secondAttribute="trailing" constant="269" id="4Qh-4E-rGu"/>
-                                        <constraint firstItem="oQd-JM-Cof" firstAttribute="leading" secondItem="3OK-hh-wla" secondAttribute="leading" constant="20" id="8eW-vD-i5K"/>
-                                        <constraint firstAttribute="trailing" secondItem="EHl-tK-XfN" secondAttribute="trailing" constant="20" id="Cll-Cx-xAs"/>
-                                        <constraint firstItem="EHl-tK-XfN" firstAttribute="top" secondItem="3OK-hh-wla" secondAttribute="top" constant="19" id="rMC-eQ-UVD"/>
-                                        <constraint firstAttribute="bottom" secondItem="EHl-tK-XfN" secondAttribute="bottom" constant="18.666666666666664" id="tae-WE-gQV"/>
-                                        <constraint firstAttribute="bottom" secondItem="oQd-JM-Cof" secondAttribute="bottom" constant="18.666666666666664" id="uyi-lM-Nrl"/>
-                                        <constraint firstItem="oQd-JM-Cof" firstAttribute="top" secondItem="3OK-hh-wla" secondAttribute="top" constant="20" id="zdF-hC-SYv"/>
+                                        <constraint firstItem="EHl-tK-XfN" firstAttribute="centerY" secondItem="3OK-hh-wla" secondAttribute="centerY" id="B4m-aS-13L"/>
+                                        <constraint firstItem="oQd-JM-Cof" firstAttribute="leading" secondItem="3OK-hh-wla" secondAttribute="leading" constant="20" id="fEf-hA-f0z"/>
+                                        <constraint firstAttribute="trailing" secondItem="EHl-tK-XfN" secondAttribute="trailing" constant="20" id="ivB-ZJ-UFl"/>
+                                        <constraint firstItem="oQd-JM-Cof" firstAttribute="centerY" secondItem="3OK-hh-wla" secondAttribute="centerY" id="v9K-er-ZW4"/>
                                     </constraints>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
@@ -501,7 +555,7 @@
                             <outlet property="delegate" destination="GRv-xy-W1Z" id="Xh7-GZ-VUW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="0dP-Ep-pGQ"/>
+                    <navigationItem key="navigationItem" title="TrackXP" id="0dP-Ep-pGQ"/>
                     <connections>
                         <segue destination="gUX-Vr-DeW" kind="presentation" identifier="showBudgetSeque" id="bKg-BX-pP0"/>
                     </connections>
@@ -914,7 +968,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="217.66666666666666"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="vLb-BG-JFX">
+                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLb-BG-JFX">
                                                     <rect key="frame" x="47" y="0.0" width="320" height="216"/>
                                                     <date key="date" timeIntervalSinceReferenceDate="541475060.95393503">
                                                         <!--2018-02-28 01:44:20 +0000-->

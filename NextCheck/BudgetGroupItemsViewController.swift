@@ -15,6 +15,10 @@ class BudgetGroupItemsViewController: UIViewController, UITableViewDataSource, U
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var expenseButton: UIButton!
+    
+    @IBOutlet weak var incomeButton: UIButton!
+    
     var financialTransactions = [FinancialTransaction]()
     var expenses = [Expense]()
     var incomes = [Income]()
@@ -87,6 +91,7 @@ class BudgetGroupItemsViewController: UIViewController, UITableViewDataSource, U
         do {
             let btn = sender as! UIButton
             btn.isSelected = !btn.isSelected
+            self.incomeButton.isSelected = false
             try LoadExpenses()
             tableView.reloadData()
         } catch{
@@ -99,6 +104,7 @@ class BudgetGroupItemsViewController: UIViewController, UITableViewDataSource, U
         do {
             let btn = sender as! UIButton
             btn.isSelected = !btn.isSelected
+            self.expenseButton.isSelected = false
             try LoadIncome()
             tableView.reloadData()
         } catch{

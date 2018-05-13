@@ -31,9 +31,11 @@ class FinancialTransaction {
     func getDisplayAmount() -> String{
         if self.FinancialTransactionType == .Expense{
             if let paid = self.Paid, paid == true{
+                return "\(self.Amount.asCurrency)"
+            }else{
                 return "-\(self.Amount.asCurrency)"
             }
         }
-        return self.Amount.asCurrency
+        return "+\(self.Amount.asCurrency)"
     }
 }

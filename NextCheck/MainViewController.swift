@@ -18,7 +18,7 @@ class MainViewController: UITableViewController, MainDismissHandler {
 
 
     var budgets = [Budget]()
-    var sections = [Int64:String]()// = ["02/01/2018", "02/15/2018"]
+    var sections = [BudgetSection]()//[Int64:String]()// = ["02/01/2018", "02/15/2018"]
     //var financialTransactions: [FinancialTransaction]
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,15 +41,24 @@ class MainViewController: UITableViewController, MainDismissHandler {
         // Dispose of any resources that can be recreated.
     }
     
+    func loadSections() {
+        self.sections = [BudgetSection]()//[Int64:String]()
+        var index = 0
+        let sortedBudgets = budgets.sorted(by: {(b1, b2) in b1.startDate.timeIntervalSince1970 > b2.startDate.timeIntervalSince1970})
+        for i in 0..<sortedBudgets.count{
+            let bid = sortedBudgets[i].BudgetId!
+            let startDate = sortedBudgets[i].startDate
+            let budgetSection = BudgetSection(budgetId: bid, startDate: startDate)
+            sections.insert(budgetSection, at: i)
+            //sections[bid] = DateFormatter.localizedString(from: startDate, dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.none)
+            index+=1
+        }
+    }
+    
     func loadBudgets() -> Void{
         do {
             budgets += try BudgetRepo.findMostRecent()
-            var index = 0
-            budgets.forEach({
-               
-                sections[$0.BudgetId!] = DateFormatter.localizedString(from: $0.startDate, dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.none)
-                index+=1
-            })
+            loadSections()
         } catch  {
             self.showAlertOK("Error", "Error occured loading budgets")
             os_log("Failed loading budgets: %@", log: ExpensesViewController.ui_log, type: .error,error.localizedDescription)
@@ -71,7 +80,7 @@ class MainViewController: UITableViewController, MainDismissHandler {
                 let row = tableView.indexPathForSelectedRow?.row
                 
                 if section! > 0{
-                    let budgetId = Array(sections)[section! - 1].key
+                    let budgetId = sections[section! - 1].BudgetId
                     
                     if let budget = budgets.first(where: {$0.BudgetId! == budgetId}){
                         let transaction = budget.FinancialTransactions[row!]
@@ -83,20 +92,23 @@ class MainViewController: UITableViewController, MainDismissHandler {
         }
         
         if segue.identifier == "showBudgetSearch"{
-            if  let editTransactionViewController = segue.destination as? BudgetSearchViewController{
-                editTransactionViewController.delegate = self
+            if  let budgetsViewController = segue.destination as? BudgetsViewController{
+                budgetsViewController.delegate = self
+                budgetsViewController.SelectedBudgets = self.budgets
             }
         }
     }
     
     func dismissedEdit(id: Int64){
-        budgets = [Budget]();
+        sections = [BudgetSection]()
+        budgets = [Budget]()
         loadBudgets()
         tableView.reloadData()
     }
     
     func dismissedSearch(filter: [Budget]) {
-        self.budgets = filter
+        self.budgets = filter.sorted(by: {(b1, b2) in b1.startDate.timeIntervalSince1970 > b2.startDate.timeIntervalSince1970})
+        loadSections()
         tableView.reloadData()
     }
 
@@ -111,8 +123,8 @@ class MainViewController: UITableViewController, MainDismissHandler {
         // #warning Incomplete implementation, return the number of rows
         if (section > 0)
         {
-            let startDate = Array(sections)[section - 1].value//.toDate("MMM d, yyyy")
-            if let budget = budgets.first(where: {DateFormatter.localizedString(from: $0.startDate, dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.none) == startDate}){
+            let startDate = sections[section - 1].StartDate
+            if let budget = budgets.first(where: {$0.startDate.toShortDateString() == startDate.toShortDateString()}){
                 
             return budget.FinancialTransactions.count
                 
@@ -132,7 +144,7 @@ class MainViewController: UITableViewController, MainDismissHandler {
         }
         else if indexPath.section > 0 {
             let transactionCell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! TransactionItemTableViewCell
-            let budgetId = Array(sections)[indexPath.section - 1].key
+            let budgetId = sections[indexPath.section - 1].BudgetId
         
             if let budget = budgets.first(where: {$0.BudgetId! == budgetId}){
                 let transaction = budget.FinancialTransactions[indexPath.row]
@@ -153,7 +165,7 @@ class MainViewController: UITableViewController, MainDismissHandler {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section > 0{
             let headerCell = tableView.dequeueReusableCell(withIdentifier: "HeaderCell") as! BudgetHeaderTableViewCell
-            headerCell.DateLabel.text = Array(sections)[section - 1].value
+            headerCell.DateLabel.text = sections[section - 1].StartDate.toShortDateString()
             
             headerCell.AddTransactionButton.addTarget(self, action:#selector(MainViewController.addTransactionButton), for: .touchUpInside)
             headerCell.AddTransactionButton.tag = section
@@ -162,7 +174,7 @@ class MainViewController: UITableViewController, MainDismissHandler {
         return super.tableView(tableView, viewForHeaderInSection: section)
     }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 60
+        return 70
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -178,7 +190,7 @@ class MainViewController: UITableViewController, MainDismissHandler {
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
 
         if section > 0{
-        let budgetId = Array(sections)[section - 1].key
+        let budgetId = sections[section - 1].BudgetId
         
         if let budget = budgets.first(where: {$0.BudgetId! == budgetId}){
             let headerCell = tableView.dequeueReusableCell(withIdentifier: "FooterCell") as! BalanceTableViewCell
@@ -199,7 +211,7 @@ class MainViewController: UITableViewController, MainDismissHandler {
     }
     
     @objc func addTransactionButton(sender: UIButton){
-        let budgetId = Array(sections)[sender.tag - 1].key
+        let budgetId = sections[sender.tag - 1].BudgetId
         
         if let budget = budgets.first(where: {$0.BudgetId! == budgetId}){
             let editTransactionViewController = self.storyboard?.instantiateViewController(withIdentifier: "EditTransactionViewController") as! EditTransactionViewController
