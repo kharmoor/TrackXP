@@ -90,7 +90,9 @@ class BudgetRepo: RepoProtocol{
 
             let budget = Budget(budgetId: bid, startDate: startDate, budgetGroup: budgetGroup)
             if let transactions = try TransactionRepo.findByBudgetId(id: bid){
-                budget.FinancialTransactions += transactions
+                budget.FinancialTransactions += transactions.sorted(by: { (t1, t2) -> Bool in
+                    t1.FinancialTransactionType.rawValue > t2.FinancialTransactionType.rawValue
+                })
             }
              budgets.append(budget)
         }

@@ -34,6 +34,9 @@ class MainViewController: UITableViewController, MainDismissHandler {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.singleLine
         
         loadBudgets()
+        
+       //UIApplication.shared.keyWindow?.backgroundColor = UIColor(red: 242, green: 239, blue: 231)
+       // view.backgroundColor = UIColor(red: 242, green: 239, blue: 231)
     }
 
     override func didReceiveMemoryWarning() {
@@ -144,15 +147,26 @@ class MainViewController: UITableViewController, MainDismissHandler {
         }
         else if indexPath.section > 0 {
             let transactionCell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath) as! TransactionItemTableViewCell
+            transactionCell.descriptionLabel.textColor = UIColor.black
+            transactionCell.amountLabel.textColor = UIColor.black
             let budgetId = sections[indexPath.section - 1].BudgetId
         
             if let budget = budgets.first(where: {$0.BudgetId! == budgetId}){
                 let transaction = budget.FinancialTransactions[indexPath.row]
-
+                if transaction.FinancialTransactionType == .Income{
+                    transactionCell.amountLabel.textColor = UIColor.green
+                }
+                if let isPaid = transaction.Paid{
+                    if isPaid || transaction.Void{
+                        transactionCell.descriptionLabel.textColor = UIColor.gray
+                        transactionCell.amountLabel.textColor = UIColor.gray
+                    }
+                }
                 if let description = transaction.Description{
                     transactionCell.descriptionLabel.text = description + (transaction.Void ? " (Void)" : "")
                 }
                 transactionCell.amountLabel.text = transaction.getDisplayAmount()
+                
             }
         return transactionCell
         }
@@ -176,7 +190,7 @@ class MainViewController: UITableViewController, MainDismissHandler {
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 70
     }
-
+   
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0{
             self.performSegue(withIdentifier: "showBudgetSeque", sender: self)
@@ -205,7 +219,7 @@ class MainViewController: UITableViewController, MainDismissHandler {
     }
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section == 0{
-            return 0
+            return 1
         }
         return 50
     }

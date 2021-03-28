@@ -18,15 +18,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         do {
+            try CommonRepo.createVersionTable()
+            
+            let curVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String  ?? "1.0"
+            let storedVersion = try CommonRepo.findVersion()
+            
+            if curVersion != storedVersion{
+            try CommonRepo.insertVersion()
             try ExpenseRepo.createTable()
             try IncomeRepo.createTable()
             try BudgetGroupRepo.createTable()
             try BudgetRepo.createTable()
             try TransactionRepo.createTable()
+                
+            }
         } catch {
             os_log("Failed to initialize DataStore: %@", log: _log, type: .error,error.localizedDescription)
             return false
         }
+        
+        let navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.tintColor = UIColor.white //UIColor(rgb: 0x072a63)
+        navigationBarAppearace.barTintColor = UIColor(red: 7, green: 42, blue: 99) //UIColor(red: 255, green: 255, blue: 255)
+        // change navigation item title color
+        navigationBarAppearace.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        
+        let tabBarAppearance = UITabBar.appearance()
+        tabBarAppearance.tintColor = UIColor.white
+        tabBarAppearance.barTintColor = UIColor(red: 25, green: 29, blue: 50)
+        
+        //change status bar color
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        
+        //change view background color
+        let viewController = self.window?.rootViewController
+        viewController?.view.backgroundColor = UIColor(red: 242, green: 239, blue: 231)
+        
+        
         return true
     }
 
